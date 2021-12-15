@@ -40,8 +40,6 @@ public class Hand : IHand
         .GroupBy(h => h.Value)
         .Count(g => g.Count() == 2) == 1;
 
-    public bool IsHigh => !IsStraight && !IsFlush && !IsStraight && !IsPair;
-
     public HandRanking GetHandRanking()
     {
         if (IsStraightFlush)

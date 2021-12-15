@@ -27,11 +27,6 @@ public interface IHand
     bool IsStraightFlush { get; }
 
     /// <summary>
-    /// High Card(2 cards, different rank, suit and not in sequence.Highest card wins)
-    /// </summary>
-    bool IsHigh { get; }
-
-    /// <summary>
     /// Get the handranking
     /// </summary>
     HandRanking GetHandRanking();

@@ -55,7 +55,7 @@ public class Tests
     }
 
     [Test]
-    public void PlayerWithHighestScoreIsTheWinner()
+    public void PlayerWithHighestScoreWinsTheRound()
     {
         // Arrange
         // I have a deck of cards in a game
@@ -73,5 +73,34 @@ public class Tests
         // (where x = number of players)).
         Assert.AreEqual(playerWithHighestScore.PlayerHandRankings[CurrentRound].Score, NumberOfPlayers-1);
         Assert.AreEqual(playerWithHighestScore.HandsWon, game.CurrentRound);
+    }
+
+    [Test]
+    public void PlayerWithHighestHandsWonIsTheWinner()
+    {
+        // Arrange
+        // I have a deck of cards in a game
+        var deck = new Deck();
+        var game = new Game(deck, NumberOfRounds, NumberOfPlayers);
+        deck.Shuffle();
+
+        // Act
+        for (var i = 0; i < game.NumberOfRounds; i++)
+        {
+            game.DealHandsToAllPlayersInARound();
+        }
+
+        // Assert 
+        var playerWithHandWins = game.Players.OrderByDescending(p => p.HandsWon).First();
+        var playerWithHighestScore =
+            game.Players
+                .Select(p => new
+                {
+                    Player = p,
+                    NumberOfHighScores = p.PlayerHandRankings.Values.Count(t => t.Score == NumberOfPlayers - 1)
+                }).OrderByDescending(t => t.NumberOfHighScores).First();
+
+ 
+        Assert.AreEqual(playerWithHighestScore.NumberOfHighScores, playerWithHandWins.HandsWon);
     }
 }
