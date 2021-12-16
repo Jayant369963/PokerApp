@@ -18,11 +18,31 @@ public class Hand : IHand
         Cards.Add(card2);
     }
 
-    public bool IsStraightFlush => IsStraight && IsFlush;
+    public HandRanking GetHandRanking()
+    {
+        if (IsStraightFlush)
+            return HandRanking.StraightFlush;
+        if (IsFlush)
+            return HandRanking.Flush;
+        if (IsStraight)
+            return HandRanking.Straight;
+        return IsPair ? HandRanking.Pair : HandRanking.HighCard;
+    }
 
-    public bool IsFlush => Cards.GroupBy(h => h.Suit).Count() == 1;
+    /// <summary>
+    ///     Straight Flush(2 cards of sequential rank, same suit)
+    /// </summary>
+    private bool IsStraightFlush => IsStraight && IsFlush;
 
-    public bool IsStraight
+    /// <summary>
+    ///     Flush(2 cards, same suit)
+    /// </summary>
+    private bool IsFlush => Cards.GroupBy(h => h.Suit).Count() == 1;
+
+    /// <summary>
+    ///     Straight(2 cards of sequential rank, different suit)
+    /// </summary>
+    private bool IsStraight
     {
         get
         {
@@ -36,18 +56,10 @@ public class Hand : IHand
         }
     }
 
-    public bool IsPair => Cards
+    /// <summary>
+    ///     1 pair(2 cards of same rank)
+    /// </summary>
+    private bool IsPair => Cards
         .GroupBy(h => h.Value)
         .Count(g => g.Count() == 2) == 1;
-
-    public HandRanking GetHandRanking()
-    {
-        if (IsStraightFlush)
-            return HandRanking.StraightFlush;
-        if (IsFlush)
-            return HandRanking.Flush;
-        if (IsStraight)
-            return HandRanking.Straight;
-        return IsPair ? HandRanking.Pair : HandRanking.HighCard;
-    }
 }
