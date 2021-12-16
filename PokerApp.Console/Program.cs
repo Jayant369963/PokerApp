@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PokerApp.Core;
 
-// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+// Initializing the deck
 var deck = new Deck();
 const int numberOfRounds = 3;
 const int numberOfPlayers = 2;
@@ -25,6 +24,5 @@ foreach (var player in game.Players.OrderByDescending(p => p.HandsWon))
 
 var playerWithHandWins = game.Players.OrderByDescending(p => p.HandsWon).First();
 Console.WriteLine($"Player: {playerWithHandWins.PlayerName} won the game with {playerWithHandWins.HandsWon} hands won");
-
 
 Console.ReadLine();
